@@ -5,8 +5,10 @@ using System.Reflection;
 using BepInEx;
 using BoyDoILoveInformation.Core;
 using BoyDoILoveInformation.Tools;
+using ExitGames.Client.Photon;
 using HarmonyLib;
 using Newtonsoft.Json;
+using Photon.Pun;
 using UnityEngine;
 
 namespace BoyDoILoveInformation;
@@ -35,6 +37,8 @@ public class Plugin : BaseUnityPlugin
     {
         new Harmony(Constants.PluginGuid).PatchAll();
         GorillaTagger.OnPlayerSpawned(OnGameInitialized);
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "BoyDoILoveInformation Public", true }, });
     }
 
     public static void PlaySound(AudioClip audioClip)

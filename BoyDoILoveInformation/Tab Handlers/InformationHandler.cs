@@ -116,8 +116,8 @@ public class InformationHandler : TabHandlerBase
         if (line != null)
             line.enabled = true;
 
+        OnNewRig(ChosenRig);
         HighlightPlayer(ChosenRig);
-        NoPlayerSelected();
     }
 
     private void OnDisable()
@@ -131,6 +131,9 @@ public class InformationHandler : TabHandlerBase
 
     private void OnNewRig(VRRig rig)
     {
+        if (rig == null)
+            return;
+
         playerName.text          = rig.OwningNetPlayer.SanitizedNickName;
         accountCreationDate.text = rig.GetAccountCreationDate().ToString("dd/MM/yyyy");
         platform.text            = rig.GetPlatform().ParsePlatform();

@@ -12,6 +12,16 @@ public class ModsHandler : TabHandlerBase
     {
         playerName    = transform.GetChild(0).GetComponent<TextMeshPro>();
         installedMods = transform.GetChild(1).GetComponent<TextMeshPro>();
+
+        playerName.text = InformationHandler.ChosenRig == null
+                                  ? "No player selected"
+                                  : InformationHandler.ChosenRig.OwningNetPlayer.SanitizedNickName;
+
+        installedMods.text = InformationHandler.ChosenRig == null
+                                     ? "-"
+                                     : InformationHandler.ChosenRig.GetPlayerMods().Length > 0
+                                             ? InformationHandler.ChosenRig.GetPlayerMods().Join("\n")
+                                             : "No mods detected";
     }
 
     private void OnEnable()
