@@ -15,13 +15,16 @@ public class InformationHandler : TabHandlerBase
     private       TextMeshPro colourCode;
     private       TextMeshPro fps;
 
-    private float        lastPingUpdate;
+    private Vector3 lastPos;
+
+    private float        lastUpdate;
     private LineRenderer line;
     private TextMeshPro  ping;
     private TextMeshPro  platform;
     private GameObject   playerHighlighter;
 
     private TextMeshPro playerName;
+    private TextMeshPro velocity;
 
     private void Start()
     {
@@ -30,7 +33,8 @@ public class InformationHandler : TabHandlerBase
         fps                 = transform.GetChild(2).GetComponent<TextMeshPro>();
         ping                = transform.GetChild(3).GetComponent<TextMeshPro>();
         colourCode          = transform.GetChild(4).GetComponent<TextMeshPro>();
-        accountCreationDate = transform.GetChild(5).GetComponent<TextMeshPro>();
+        velocity            = transform.GetChild(5).GetComponent<TextMeshPro>();
+        accountCreationDate = transform.GetChild(6).GetComponent<TextMeshPro>();
 
         NoPlayerSelected();
 
@@ -97,13 +101,24 @@ public class InformationHandler : TabHandlerBase
             fps.text        = $"<color={colour}>{fpsInt}</color> FPS";
             colourCode.text = ParseIntoColourCode(ChosenRig.playerColor);
 
-            if (lastPingUpdate + 0.1f < Time.time)
+            if (lastUpdate + 0.1f < Time.time)
             {
-                lastPingUpdate = Time.time;
-                ping.text      = $"{ChosenRig.GetPing()} ms";
+                string pingColour = ChosenRig.GetPing() > 100 ? ChosenRig.GetPing() > 250 ? "red" : "orange" : "green";
+                ping.text = $"<color={pingColour}>{ChosenRig.GetPing()}</color> ms";
+
+                Vector3 playerSpeed = (ChosenRig.transform.position - lastPos) / (Time.time - lastUpdate);
+                lastPos = ChosenRig.transform.position;
+                string speedColour = playerSpeed.magnitude < 10f
+                                             ? playerSpeed.magnitude < 6.5f ? "green" : "orange"
+                                             : "red";
+
+                velocity.text = $"<color={speedColour}>{playerSpeed.magnitude:F1}</color> m/s";
+
+                lastUpdate = Time.time;
             }
 
-            if (ControllerInputPoller.instance.rightControllerSecondaryButton)
+            bool isPressed = Plugin.MenuOpenButton.Value == ButtonType.RightSecondary ? ControllerInputPoller.instance.rightControllerPrimaryButton : ControllerInputPoller.instance.rightControllerSecondaryButton;
+            if (isPressed)
             {
                 ChosenRig = null;
                 HighlightPlayer(null);
@@ -148,6 +163,7 @@ public class InformationHandler : TabHandlerBase
         fps.text                 = "-";
         ping.text                = "-";
         colourCode.text          = "-";
+        velocity.text            = "-";
         accountCreationDate.text = "-";
     }
 
