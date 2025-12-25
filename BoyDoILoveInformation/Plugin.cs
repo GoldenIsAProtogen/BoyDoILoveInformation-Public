@@ -98,6 +98,7 @@ public class Plugin : BaseUnityPlugin
         BDILIClick = LoadWavFromResource("BoyDoILoveInformation.Resources.ButtonPressWood.wav");
         
         gameObject.AddComponent<BDILIUtils>();
+        gameObject.AddComponent<PunCallbacks>();
         gameObject.AddComponent<MenuHandler>();
     }
 
@@ -129,11 +130,11 @@ public class Plugin : BaseUnityPlugin
         HttpResponseMessage hanSoloPlayerIdsEndPointResponse =
                 httpClient.GetAsync(GorillaInfoEndPointURL + "HanSoloPlayerId").Result;
 
-        using (Stream stream = knownModsEndPointResponse.Content.ReadAsStreamAsync().Result)
+        using (Stream stream = hanSoloPlayerIdsEndPointResponse.Content.ReadAsStreamAsync().Result)
         {
             using (StreamReader reader = new(stream))
             {
-                HanSoloPlayerIDs = JsonConvert.DeserializeObject<string[]>(reader.ReadToEnd());
+                HanSoloPlayerIDs = reader.ReadToEnd().Trim().Split(";");
             }
         }
     }
