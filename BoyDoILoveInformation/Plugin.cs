@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using BepInEx;
+using BepInEx.Configuration;
 using BoyDoILoveInformation.Core;
 using BoyDoILoveInformation.Tools;
 using ExitGames.Client.Photon;
@@ -13,6 +14,12 @@ using Photon.Pun;
 using UnityEngine;
 
 namespace BoyDoILoveInformation;
+
+public enum ButtonType
+{
+    LeftSecondary, RightSecondary,
+    LeftPrimary, RightPrimary,
+}
 
 [BepInPlugin(Constants.PluginGuid, Constants.PluginName, Constants.PluginVersion)]
 public class Plugin : BaseUnityPlugin
@@ -35,10 +42,20 @@ public class Plugin : BaseUnityPlugin
 
     public static AudioClip BDILIClick;
 
+    public static ConfigEntry<ButtonType> MenuOpenButton;
+    private       ConfigFile              bdiliConfigFile;
+
     private string outdatedVersionText;
     private bool   isDeprecatedVersion;
     private float  lastNotification;
 
+    private void Awake()
+    {
+        bdiliConfigFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "BDILI.cfg"), true);
+        MenuOpenButton = bdiliConfigFile.Bind("General", "Menu Open Button", ButtonType.LeftSecondary,
+                "What button to open the checker with");
+    }
+    
     private void Start()
     {
         new Harmony(Constants.PluginGuid).PatchAll();
@@ -68,7 +85,7 @@ public class Plugin : BaseUnityPlugin
         using HttpClient client = new();
         HttpResponseMessage response = client
                                       .GetAsync(
-                                               "https://raw.githubusercontent.com/HanSolo1000Falcon/GorillaInfo/main/BDILIVersion")
+                                               GorillaInfoEndPointURL + "BDILIVersion")
                                       .Result;
 
         response.EnsureSuccessStatusCode();

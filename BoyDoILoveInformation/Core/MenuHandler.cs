@@ -43,7 +43,13 @@ public class MenuHandler : MonoBehaviour
 
     private void Update()
     {
-        bool isPressed = ControllerInputPoller.instance.leftControllerSecondaryButton;
+        bool isPressed = Plugin.MenuOpenButton.Value switch
+                         {
+                                 ButtonType.LeftSecondary => ControllerInputPoller.instance.leftControllerSecondaryButton,
+                                 ButtonType.RightSecondary => ControllerInputPoller.instance.rightControllerSecondaryButton,
+                                 ButtonType.LeftPrimary => ControllerInputPoller.instance.leftControllerPrimaryButton,
+                                 ButtonType.RightPrimary => ControllerInputPoller.instance.rightControllerPrimaryButton,
+                         };
 
         if (isPressed && !wasPressed)
         {
