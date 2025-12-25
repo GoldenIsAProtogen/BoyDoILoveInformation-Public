@@ -32,7 +32,7 @@ public class Notifications : MonoBehaviour
         canvas.transform.localRotation = Quaternion.Euler(345f, 0f, 0f);
 
         notificationText = canvas.GetComponentInChildren<Text>();
-        canvas.SetLayer(XRSettings.isDeviceActive ? UnityLayer.FirstPersonOnly : UnityLayer.MirrorOnly);
+        canvas.SetLayer(UnityLayer.FirstPersonOnly);
         ApplyNotificationText();
     }
 
