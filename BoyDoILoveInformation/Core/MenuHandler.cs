@@ -56,6 +56,7 @@ public class MenuHandler : MonoBehaviour
             IsMenuOpen = !IsMenuOpen;
             StartCoroutine(IsMenuOpen ? OpenMenu() : CloseMenu());
             InformationHandler.ChosenRig = null;
+            NetworkingHandler.OnMenuStateUpdate?.Invoke(IsMenuOpen);
         }
 
         wasPressed = isPressed;

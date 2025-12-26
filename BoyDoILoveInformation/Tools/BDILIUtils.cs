@@ -12,6 +12,9 @@ namespace BoyDoILoveInformation.Tools;
 
 public class BDILIUtils : MonoBehaviour
 {
+    public static Action<VRRig> OnPlayerCosmeticsLoaded;
+    public static Action<VRRig> OnPlayerRigCached;
+    
     public static Transform RealRightController;
     public static Transform RealLeftController;
 

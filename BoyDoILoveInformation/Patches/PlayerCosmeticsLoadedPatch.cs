@@ -94,5 +94,7 @@ public static class PlayerCosmeticsLoadedPatch
         }
 
         Extensions.PlayerPlatforms[rig] = GamePlatform.Unknown;
+        
+        BDILIUtils.OnPlayerCosmeticsLoaded?.Invoke(rig);
     }
 }

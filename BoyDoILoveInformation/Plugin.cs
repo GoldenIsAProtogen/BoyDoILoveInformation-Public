@@ -116,6 +116,7 @@ public class Plugin : BaseUnityPlugin
         
         gameObject.AddComponent<BDILIUtils>();
         gameObject.AddComponent<PunCallbacks>();
+        gameObject.AddComponent<NetworkingHandler>();
         gameObject.AddComponent<MenuHandler>();
     }
 

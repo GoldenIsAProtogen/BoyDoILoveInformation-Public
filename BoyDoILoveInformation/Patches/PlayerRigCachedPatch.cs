@@ -8,6 +8,8 @@ public class PlayerRigCachedPatch
 {
     private static void Postfix(NetPlayer player, VRRig vrrig)
     {
+        BDILIUtils.OnPlayerRigCached?.Invoke(vrrig);
+        
         Extensions.PlayersWithCosmetics.Remove(vrrig);
         Extensions.PlayerPlatforms.Remove(vrrig);
         Extensions.PlayerMods.Remove(vrrig);
