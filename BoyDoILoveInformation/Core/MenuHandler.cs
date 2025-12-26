@@ -11,14 +11,14 @@ namespace BoyDoILoveInformation.Core;
 
 public class MenuHandler : MonoBehaviour
 {
-    private static readonly Vector3 TargetMenuScale = Vector3.one * 15f;
+    public static readonly Vector3 TargetMenuScale = Vector3.one * 15f;
 
     public static readonly Vector3    BaseMenuPosition = new(0.25f, 0f, 0.05f);
     public static readonly Quaternion BaseMenuRotation = Quaternion.Euler(300f, 0f, 180f);
 
     public bool IsMenuOpen;
 
-    public GameObject Menu;
+    public static GameObject Menu;
 
     private bool wasPressed;
 
@@ -31,7 +31,7 @@ public class MenuHandler : MonoBehaviour
 
         Menu.transform.localPosition = BaseMenuPosition;
         Menu.transform.localRotation = BaseMenuRotation;
-        Menu.transform.localScale    = Vector3.zero;
+        Menu.transform.localScale    = TargetMenuScale;
 
         Plugin.MainColour      = Menu.GetComponent<Renderer>().material.color;
         Plugin.SecondaryColour = Menu.transform.GetChild(0).GetComponent<Renderer>().material.color;
@@ -62,7 +62,7 @@ public class MenuHandler : MonoBehaviour
         wasPressed = isPressed;
     }
 
-    private void PerformShaderManagement(GameObject obj)
+    public static void PerformShaderManagement(GameObject obj)
     {
         foreach (Transform child in obj.transform)
             PerformShaderManagement(child.gameObject);

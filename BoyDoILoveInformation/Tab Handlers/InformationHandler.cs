@@ -150,7 +150,7 @@ public class InformationHandler : TabHandlerBase
         if (rig == null)
             return;
 
-        string special = Plugin.HanSoloPlayerIDs.Contains(rig.OwningNetPlayer.UserId) ? " : HanSolo1000Falcon" : "";
+        string special = Plugin.HanSoloPlayerIDs.Contains(rig.OwningNetPlayer.UserId) ? " : <color=yellow>HanSolo1000Falcon</color>" : "";
         playerName.text          = rig.OwningNetPlayer.SanitizedNickName + special;
         accountCreationDate.text = rig.GetAccountCreationDate().ToString("dd/MM/yyyy");
         platform.text            = rig.GetPlatform().ParsePlatform();

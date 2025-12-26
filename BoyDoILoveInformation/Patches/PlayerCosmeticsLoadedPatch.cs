@@ -63,6 +63,8 @@ public static class PlayerCosmeticsLoadedPatch
 
         Extensions.PlayerMods[rig] = mods;
 
+        BDILIUtils.OnPlayerCosmeticsLoaded?.Invoke(rig);
+        
         string cosmeticsAllowed = rig.concatStringOfCosmeticsAllowed.ToLower();
 
         if (cosmeticsAllowed.Contains("s. first login"))
@@ -94,7 +96,5 @@ public static class PlayerCosmeticsLoadedPatch
         }
 
         Extensions.PlayerPlatforms[rig] = GamePlatform.Unknown;
-        
-        BDILIUtils.OnPlayerCosmeticsLoaded?.Invoke(rig);
     }
 }
